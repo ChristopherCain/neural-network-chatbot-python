@@ -1,5 +1,12 @@
-venv/
+.env
+.env.*
+!.env.example
 __pycache__/
-*.pkl
-*.h5
+.pytest_cache/
+.venv/
+node_modules/
+dist/
+target/
+coverage/
 *.pyc
+*.log
