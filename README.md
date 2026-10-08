@@ -1,116 +1,123 @@
-# Neural Network Chatbot (Python)
+<p align="center"><img src="docs/assets/quantum-inu.png" width="220" alt="Quantum Inu"></p>
 
-An intent-based gaming information chatbot built **from scratch** using Python, NLTK, and TensorFlow.  
-This project focuses on understanding **Natural Language Processing (NLP)** fundamentals rather than using pre-built AI APIs.
+# Quantum Inu
+**The Universal Post-Quantum Security Layer for Crypto**
 
----
+Quantum Inu is an Ethereum-native, multichain **research implementation** for cryptographic migration, exposed-key monitoring, algorithm agility, and chain-specific authorization adapters.
 
-## 🚀 Project Overview
+> Status: research / pre-audit. This repository does not claim that Ethereum, Bitcoin, Solana, or any other chain is already quantum-resistant end-to-end.
 
-The Gaming Info Chatbot is designed to answer gaming-related questions such as:
-- Popular games
-- Game genres (FPS, RPG, Multiplayer, etc.)
-- Gaming platforms (PC, Console, Mobile)
-- Basic chatbot interactions (greetings, thanks, goodbye)
+## Architecture
 
-The chatbot uses a **Bag-of-Words model** and a **Neural Network classifier** to predict user intent and respond accordingly.
-
----
-
-## 🧠 How It Works
-
-1. User input is tokenized and lemmatized using **NLTK**
-2. Text is converted into a **Bag-of-Words vector**
-3. A trained **Neural Network model** predicts the intent
-4. A random response is selected from the matched intent
-
----
-
-## 🛠️ Technologies Used
-
-- **Python**
-- **NLTK** (tokenization & lemmatization)
-- **TensorFlow / Keras** (neural network model)
-- **NumPy**
-- **Pickle** (saving words & classes)
-- **Git & GitHub**
-- **Linux environment**
-
----
-
-## 📁 Project Structure
-
-```
-python-chatbot/
-│
-├── chatbot.py        # Chat runtime (user interaction)
-├── new.py            # Model training script
-├── intents.json     # Gaming-related dataset
-├── README.md        # Project documentation
-└── .gitignore       # Ignored files (venv, models, cache)
+```text
+                    qinu-core (Rust)
+              capability + migration policy
+                         |
+          +--------------+--------------+
+          |              |              |
+      Ethereum        Bitcoin        Solana
+      adapter          policy         policy
+          |              |              |
+          +------- Threat Sentinel ------+
+                    (Go service)
+                         |
+               SDKs + evidence schema
+               TypeScript / Python
 ```
 
----
+## Components
 
-## ▶️ How to Run the Project
+| Component | Language | Purpose |
+|---|---|---|
+| `crates/qinu-core` | Rust | deterministic capability registry + migration policy |
+| `services/threat-sentinel` | Go | normalized exposed-key risk analysis |
+| `sdk/typescript` | TypeScript | typed client + planner |
+| `sdk/python` | Python | migration planner + scripting SDK |
+| `contracts` | Solidity | account-level migration metadata registry |
+| `specs` | JSON/Markdown | portable observation and evidence formats |
+| `docs` | EN/RU/ZH | architecture, threat model, chain boundaries |
 
-### 1️⃣ Install dependencies
+## Core model
+
+Quantum Inu separates five concerns:
+
+1. **Observe** public-key exposure and authorization state.
+2. **Classify** urgency with deterministic reason codes.
+3. **Negotiate** classical / hybrid / post-quantum capabilities.
+4. **Migrate** through a chain-specific adapter.
+5. **Verify** observations with signed evidence envelopes.
+
+Supported algorithm identifiers include `ML-KEM`, `ML-DSA`, `SLH-DSA`, `ECDSA-SECP256K1`, `ED25519`, and hybrid authorization suites.
+
+Cryptographic primitives are intentionally delegated to audited implementations; this repository does not implement ML-KEM/ML-DSA/SLH-DSA from scratch.
+
+## Example decision
+
+```json
+{
+  "chain": "bitcoin",
+  "subject": "bc1q...",
+  "public_key_exposed": true,
+  "signature_family": "ecdsa-secp256k1",
+  "high_frequency": true,
+  "pq_authorization_available": false
+}
+```
+
+Result:
+
+```text
+urgency  HIGH
+action   ROTATE_TO_UNEXPOSED_SCRIPT
+reason   PUBLIC_KEY_EXPOSED, HIGH_SPEND_FREQUENCY
+```
+
+## Quick verification
+
 ```bash
-pip install nltk tensorflow numpy
+python -m unittest discover sdk/python/tests
+python tools/repo_invariants.py
+python tools/secret_scan.py
+
+cargo test --manifest-path crates/qinu-core/Cargo.toml
+
+cd services/threat-sentinel
+go test ./...
 ```
 
-### 2️⃣ Download NLTK data (first time only)
-```python
-import nltk
-nltk.download('punkt')
-nltk.download('punkt_tab')
-nltk.download('wordnet')
-```
+## What is implemented
 
-### 3️⃣ Train the model
-```bash
-python new.py
-```
+- deterministic migration policy engine;
+- algorithm capability registry;
+- public-key exposure schema;
+- Go threat sentinel;
+- Python and TypeScript planners;
+- Solidity migration-state registry;
+- multilingual documentation;
+- CI, security policy, invariant and secret-pattern checks.
 
-This will generate:
-- `chatbot_model.h5`
-- `words.pkl`
-- `classes.pkl`
+## Integration boundaries
 
-### 4️⃣ Run the chatbot
-```bash
-python chatbot.py
-```
+**Ethereum:** account-level smart-account / authorization migration is possible; consensus-wide signature migration requires protocol support.
 
----
+**Bitcoin:** adapters can reason about key exposure and rotation; post-quantum consensus signatures require a network upgrade.
 
-## 🎯 Purpose of This Project
+**Solana:** adapters can coordinate program/account authority migration; network-wide Ed25519 replacement is protocol-level.
 
-- Strengthen understanding of NLP fundamentals
-- Learn intent classification using neural networks
-- Practice building ML projects **without using GPT or APIs**
-- Showcase a real, hands-on project for a developer portfolio
+## Security
 
----
+Read [`SECURITY.md`](SECURITY.md) and [`docs/security/THREAT_MODEL.md`](docs/security/THREAT_MODEL.md).
 
-## 🔮 Future Improvements
+## Roadmap
 
-- Add confidence threshold to avoid wrong answers
-- Expand gaming dataset with more intents
-- Improve response variety
-- Add GUI or web interface
-- Store unknown queries for retraining
+- audited PQ provider adapters;
+- hybrid EIP-4337 authorization module;
+- Bitcoin exposure indexer;
+- Solana authority migration adapter;
+- multi-observer evidence verification;
+- reproducible benchmark corpus;
+- external review.
 
----
+## License
 
-## 📜 License
-
-This project is open-source and created for educational and portfolio purposes.
-
----
-
-## 🙌 Author
-
-**Nayon Ahmed**  
-Linux user | Python learner | NLP enthusiast  
-GitHub: https://github.com/nayonahmedjoy
+MIT.
